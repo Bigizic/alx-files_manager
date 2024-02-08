@@ -1,0 +1,7 @@
+/**
+ * RedisClient Module
+ */
+
+class RedisClient {
+    
+}
