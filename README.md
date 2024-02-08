@@ -2,12 +2,12 @@
 
 #### The objective is to build a simple platform to upload and view files:
 
-[X] User authentication via a token
-[X] List all files
-[X] Upload a new file
-[X] Change permission of a file
-[X] View a file
-[X] Generate thumbnails for images
+- [X] User authentication via a token
+- [X] List all files
+- [X] Upload a new file
+- [X] Change permission of a file
+- [X] View a file
+- [X] Generate thumbnails for images
 
 #### Of course, this kind of service already exists in the real life - it’s a learning purpose to assemble each piece and build a full product.
 
