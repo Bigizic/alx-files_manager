@@ -1,7 +1,7 @@
 import { createClient } from 'redis';
 import { promisify } from 'util';
 /**
- * RedisClient Module
+ * RedisClient Module - creates a client to Redis
  */
 
 export default class RedisClient {
