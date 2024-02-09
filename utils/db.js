@@ -11,7 +11,11 @@ export default class DBClient {
         const db = process.env.DB_DATABASE || 'files_manager';
         const uri = `mongodb://${host}:${port}/${db}`;
         this.mongoClient = new mongodb.MongoClient(uri, { useUnifiedTopology: true });
-        this.mongoClient.connect();
+        this.mongoClient.connect().then(() => {
+		this.db = this.mongoClient.db(`${db}`);
+    }).catch((e) => {
+	    console.log(e);
+    });
     }
 
     isAlive() {
@@ -21,14 +25,14 @@ export default class DBClient {
     async nbUsers() {
         const db = this.mongoClient.db();
         const users = db.collection('users');
-        return users.countDocuments();
+        return (await users.countDocuments());
     }
 
     async nbFiles() {
         const db = this.mongoClient.db();
         const files = db.collection('files');
 
-        return files.countDocuments();
+        return (await files.countDocuments());
     }
 }
 
