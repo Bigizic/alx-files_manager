@@ -8,19 +8,20 @@ export default class RedisClient {
   constructor() {
     this.client = createClient();
     this.connectionStatus = true;
-    this.client.on('error', (err) => { 
-        throw(err);
-        this.connectionStatus = false; 
+    this.client.on('error', (err) => {
+      throw (err);
+      // eslint-disable-next-line no-unreachable
+      this.connectionStatus = false;
     });
     this.client.on('connect', () => {
-        this.connectionStatus = true;
-    })
+      this.connectionStatus = true;
+    });
   }
-  
+
   isAlive() {
     return this.connectionStatus;
   }
-    
+
   async get(key) {
     const Gets = promisify(this.client.get).bind(this.client);
     const returnedkey = await Gets(key);
