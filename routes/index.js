@@ -1,8 +1,9 @@
+import UsersController from '../controllers/UsersController'
+import AppController from '../controllers/AppController';
+
 /**
  * The file that the server included from.
- */
-import AppController from '../controllers/AppController';
-import UsersController from '../controllers/UsersController'
+*/
 
 const express = require('express');
 
