@@ -1,8 +1,8 @@
+const exp = require('express');
+
 /**
  * Server starter module
- */
-
-const exp = require('express');
+*/
 
 const appss = exp();
 const portss = process.env.PORT || 5000;
