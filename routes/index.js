@@ -1,13 +1,9 @@
-import UsersController from '../controllers/UsersController'
+import UsersController from '../controllers/UsersController';
 import AppController from '../controllers/AppController';
 
 /**
- * The file that the server included from.
+ * Contains all endpoints
 */
-
-const express = require('express');
-
-const app = express();
 
 const mapRoutes = (app) => {
   app.get('/status', AppController.getStatus);
@@ -15,5 +11,5 @@ const mapRoutes = (app) => {
   app.post('/users', UsersController.postNew);
 };
 
-export default mapRoutes(app);
+export default mapRoutes;
 module.exports = mapRoutes;
