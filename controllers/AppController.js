@@ -1,13 +1,13 @@
-const redisClient = require('../utils/redis');
-const dbClient = require('../utils/db');
+import redisClient from '../utils/redis';
+import dbClient from '../utils/db';
 
 /**
  * The file that contains the two endpoints
  * in the index.js file
  */
 
-class AppController {
-  static async getStatus(req, res) {
+export default class AppController {
+  static getStatus(req, res) {
     const redisIsAlive = redisClient.isAlive();
     const dbIsAlive = dbClient.isAlive();
     res.status(200).json({ redis: redisIsAlive, db: dbIsAlive });
