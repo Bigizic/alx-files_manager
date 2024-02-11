@@ -1,8 +1,9 @@
 /**
  * The file that the server included from.
  */
-const express = require('express');
 import AppController from '../controllers/AppController';
+
+const express = require('express');
 
 const app = express();
 
@@ -11,5 +12,5 @@ const mapRoutes = (app) => {
   app.get('/stats', AppController.getStats);
 };
 
-export default mapRoutes;
+export default mapRoutes(app);
 module.exports = mapRoutes;
