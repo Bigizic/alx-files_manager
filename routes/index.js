@@ -1,15 +1,19 @@
-import UsersController from '../controllers/UsersController';
-import AppController from '../controllers/AppController';
+const express = require('express');
+const UsersController = require('../controllers/UsersController');
+const AppController = require('../controllers/AppController');
+
+const router = express.Router();
 
 /**
  * Contains all endpoints
 */
 
-const mapRoutes = (app) => {
-  app.get('/status', AppController.getStatus);
-  app.get('/stats', AppController.getStats);
-  app.post('/users', UsersController.postNew);
-};
+// eslint-disable-next-line jest/require-hook
+router.get('/status', AppController.getStatus);
 
-export default mapRoutes;
-module.exports = mapRoutes;
+// eslint-disable-next-line jest/require-hook
+router.get('/stats', AppController.getStats);
+
+// eslint-disable-next-line jest/require-hook
+router.post('/users', UsersController.postNew);
+module.exports = router;
