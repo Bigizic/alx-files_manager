@@ -9,9 +9,9 @@ const { promisify } = require('util');
 
 class RedisClient {
   constructor() {
-    this.client = createClient(6379, '0.0.0.0')
+    this.client = createClient(6379, '0.0.0.0');
 
-    this.client.on('error', (err) => { console.log("error connection to redis"); });
+    this.client.on('error', () => { console.log('error connection to redis'); });
     this.connectStatus = false;
 
     this.client.on('connect', () => { this.connectStatus = true; });
@@ -27,7 +27,7 @@ class RedisClient {
 
   /**
    * Retrives the value of a key
-   * @param {string} key 
+   * @param {string} key
    * @returns {Strin | object}
    */
   async get(key) {
@@ -38,9 +38,9 @@ class RedisClient {
 
   /**
    * set - sets a value to a key along with an expire time
-   * @param {string} key 
-   * @param {string} value 
-   * @param {Integer} duration 
+   * @param {string} key
+   * @param {string} value
+   * @param {Integer} duration
    */
   async set(key, value, duration) {
     const Sets = promisify(this.client.set).bind(this.client);
@@ -49,13 +49,12 @@ class RedisClient {
 
   /**
    * del - deletes a given key
-   * @param {string} key 
+   * @param {string} key
    */
   async del(key) {
     const Deletion = promisify(this.client.del).bind(this.client);
     await Deletion(key);
   }
-
 }
 
 const redisClient = new RedisClient();
