@@ -1,13 +1,13 @@
 import { sha1 } from 'sha1';
+import { ObjId } from 'mongodb';
 import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
-import { ObjId } from 'mongodb';
 
 /**
  * UsersController module
  */
 
-class UsersController {
+export default class UsersController {
   static async createUser(req, res) {
     const { email, password } = req.body;
 
@@ -49,11 +49,9 @@ class UsersController {
     const id = await redisClient.get(`auth_${header}`);
     console.log(id);
     const u = await dbClient.db.collection('users').findOne({ _id: new ObjId(id) });
-    if (!u) { 
-	    return response.status(401).send({ error: 'Unauthorized' });
+    if (!u) {
+      return response.status(401).send({ error: 'Unauthorized' });
     }
     return response.status(200).send(u);
   }
 }
-
-module.exports = UsersController;
