@@ -10,7 +10,7 @@ const redis = require('redis');
 export default class RedisClient {
   constructor() {
     this.client = redis.createClient();
-    this.connectionStatus = true;
+    this.connectionStatus = false;
     this.client.on('error', (err) => {
       throw (err);
       // eslint-disable-next-line no-unreachable
@@ -22,7 +22,7 @@ export default class RedisClient {
   }
 
   isAlive() {
-    return this.connectionStatus;
+    return this.client.connected;
   }
 
   async get(key) {
@@ -43,5 +43,5 @@ export default class RedisClient {
   }
 }
 
-const client = new RedisClient();
-module.exports = client;
+const redisClient = new RedisClient();
+module.exports = redisClient;
