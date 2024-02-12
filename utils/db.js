@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 const { MongoClient } = require('mongodb');
 
 /**
