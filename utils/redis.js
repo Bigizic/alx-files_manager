@@ -22,7 +22,7 @@ export default class RedisClient {
   }
 
   isAlive() {
-    return this.connectionStatus;
+    return this.client.connected;
   }
 
   async get(key) {
