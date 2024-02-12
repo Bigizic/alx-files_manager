@@ -19,5 +19,3 @@ export default class AppController {
     res.status(200).json({ users: nbUsers, files: nbFiles });
   }
 }
-
-module.exports = AppController;
