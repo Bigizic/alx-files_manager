@@ -1,5 +1,8 @@
-import express from 'express';
-import mapRoutes from './routes';
+#!/usr/bin/node
+
+import mapRoutes from './routes/index';
+
+const express = require('express');
 
 /**
  * Server starter module
