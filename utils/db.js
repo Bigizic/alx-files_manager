@@ -1,4 +1,5 @@
-import mongodb from 'mongodb';
+// eslint-disable-next-line import/no-import-module-exports
+import { MongoClient } from 'mongodb';
 
 /**
  * DBClient module - creates a client to Mongodb
@@ -10,17 +11,59 @@ export default class DBClient {
     const port = process.env.DB_PORT || 27017;
     const db = process.env.DB_DATABASE || 'files_manager';
     const uri = `mongodb://${host}:${port}/${db}`;
-    this.mongoClient = new mongodb.MongoClient(uri, { useUnifiedTopology: true });
+    this.mongoClient = new MongoClient(uri, { useUnifiedTopology: true });
     this.mongoClient.connect().then(() => {
       this.db = this.mongoClient.db(`${db}`);
     }).catch((e) => {
       console.log(e);
     });
+    // this.connect();
   }
 
+  /* async connect() {
+    try {
+      await this.mongoClient.connect();
+      this.db = this.mongoClient.db();
+
+      const userData = {
+        name: 'John Doe',
+        email: 'john@example.com',
+        age: 30,
+      };
+
+      const fileData = {
+        filename: 'example.txt',
+        size: 1024,
+        type: 'text/plain',
+        owner: 'John Doe',
+      };
+
+      await this.insertData(userData, fileData);
+    } catch (error) {
+      console.error('Error connecting to MongoDB:', error);
+    }
+  } */
+
   isAlive() {
-    return this.mongoClient.isConnected();
+    return this.mongoClient.topology.isConnected();
   }
+
+  /* async insertData(userData, fileData) {
+    if (!this.db) {
+      console.error('Database connection is not established.');
+      return;
+    }
+
+    try {
+      const usersCollection = this.db.collection('users');
+      const filesCollection = this.db.collection('files');
+
+      await usersCollection.insertOne(userData);
+      await filesCollection.insertOne(fileData);
+    } catch (error) {
+      console.error('Error inserting data into MongoDB:', error);
+    }
+  } */
 
   async nbUsers() {
     const db = this.mongoClient.db();
@@ -36,5 +79,5 @@ export default class DBClient {
   }
 }
 
-const mdbClient = new DBClient();
-module.exports = mdbClient;
+const dbClient = new DBClient();
+module.exports = dbClient;
