@@ -1,4 +1,4 @@
-const { mongodb } = require('mongodb');
+import mongodb from 'mongodb';
 
 /**
  * DBClient module - creates a client to Mongodb
