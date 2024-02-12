@@ -1,5 +1,5 @@
 import express from 'express';
-import mapRoutes from './routes/index';
+import mapRoutes from './routes';
 
 /**
  * Server starter module
