@@ -1,5 +1,7 @@
-const { sha1 } = require('sha1');
-const dbClient = require('../utils/db');
+import { sha1 } from 'sha1';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
+import { ObjId } from 'mongodb';
 
 /**
  * UsersController module
@@ -40,6 +42,17 @@ class UsersController {
       console.error('Error creating user:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
+  }
+
+  static async getUsersMe(request, response) {
+    const header = request.headers['x-token'];
+    const id = await redisClient.get(`auth_${header}`);
+    console.log(id);
+    const u = await dbClient.db.collection('users').findOne({ _id: new ObjId(id) });
+    if (!u) { 
+	    return response.status(401).send({ error: 'Unauthorized' });
+    }
+    return response.status(200).send(u);
   }
 }
 
