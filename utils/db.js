@@ -110,6 +110,29 @@ class DBClient {
     const fileTouch = await db.collection('files').insertOne(fileName);
     return fileTouch;
   }
+
+  async getFilesByParentId(userId, parentId, skip, limit) {
+    const db = this.mongoClient.db();
+    const parentObjectId = parentId === '0' ? '0' : new mongo.ObjectId(parentId);
+
+    const pipeline = [
+      {
+        $match: {
+          userId: new mongo.ObjectId(userId),
+          parentId: parentObjectId,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+    ];
+
+    const files = await db.collection('files').aggregate(pipeline).toArray();
+    return files;
+  }
 }
 
 const dbClient = new DBClient();
