@@ -132,6 +132,16 @@ class DBClient {
     const files = await db.collection('files').aggregate(pipeline).toArray();
     return files;
   }
+
+  async updateFileById(id, updateFields) {
+    const db = this.mongoClient.db();
+    const filter = { _id: new mongo.ObjectId(id) }
+    const updateResult = await db.collection('files').updateOne(filter, { $set: updateFields });
+
+    console.log(updateResult)
+
+    return updateResult
+  }
 }
 
 const dbClient = new DBClient();
