@@ -92,9 +92,23 @@ class DBClient {
 
   async getUserById(id) {
     const db = this.mongoClient.db();
-    const _id = new mongo.ObjectID(id);
+    const _id = new mongo.ObjectId(id);
     const exists = await db.collection('users').findOne({ _id });
     return exists;
+  }
+
+  async getFileById(id) {
+    const db = this.mongoClient.db();
+    const _id = new mongo.ObjectId(id);
+    const exists = await db.collection('files').findOne({ _id });
+
+    return exists;
+  }
+
+  async createFile(fileName) {
+    const db = this.mongoClient.db();
+    const fileTouch = await db.collection('files').insertOne(fileName);
+    return fileTouch;
   }
 }
 
