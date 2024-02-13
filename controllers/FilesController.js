@@ -96,7 +96,6 @@ export default class FilesController {
       return res.status(404).json({ error: 'Not found' });
     }
     return res.json(fetchFile);
-    return res.status(200).json(fetchFile);
   }
 
   static async getIndex(req, res) {
@@ -114,6 +113,5 @@ export default class FilesController {
 
     const files = await dbClient.getFilesByParentId(user._id, parentId, skip, limit);
     return res.json(files);
-    return res.status(200).json(files);
   }
 }
