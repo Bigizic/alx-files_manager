@@ -95,6 +95,7 @@ export default class FilesController {
     if (!fetchFile || user._id !== fetchFile.userId) {
       return res.status(404).json({ error: 'Not found' });
     }
+    return res.json(fetchFile);
     return res.status(200).json(fetchFile);
   }
 
@@ -112,6 +113,7 @@ export default class FilesController {
     const skip = page * limit;
 
     const files = await dbClient.getFilesByParentId(user._id, parentId, skip, limit);
+    return res.json(files);
     return res.status(200).json(files);
   }
 }
