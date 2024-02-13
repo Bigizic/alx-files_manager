@@ -2,6 +2,8 @@
 
 const { MongoClient } = require('mongodb');
 
+const mongo = require('mongodb');
+
 /**
  * DBClient module - creates a client to Mongodb
 */
@@ -86,6 +88,13 @@ class DBClient {
     const creator = await db.collection('users').insertOne(newUser);
 
     return creator;
+  }
+
+  async getUserById(id) {
+    const db = this.mongoClient.db();
+    const _id = new mongo.ObjectID(id);
+    const exists = await db.collection('users').findOne({ _id });
+    return exists;
   }
 }
 
