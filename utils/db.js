@@ -50,11 +50,6 @@ class DBClient {
   }
 
   /* async insertData(userData, fileData) {
-    if (!this.db) {
-      console.error('Database connection is not established.');
-      return;
-    }
-
     try {
       const usersCollection = this.db.collection('users');
       const filesCollection = this.db.collection('files');
