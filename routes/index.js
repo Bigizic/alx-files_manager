@@ -17,6 +17,7 @@ const mapRoutes = (app) => {
   app.get('/connect', AuthController.getConnect);
   app.get('/disconnect', AuthController.getDisconnect);
   // app.get('/users/me', UserController.getMe);
+  app.get('/users/me', UsersController.getMe);
 };
 
 export default mapRoutes;

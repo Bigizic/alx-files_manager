@@ -2,6 +2,7 @@
 
 const sha1 = require('sha1');
 const dbClient = require('../utils/db');
+const redisClient = require('../utils/redis');
 
 /**
  * UsersController module
@@ -42,5 +43,16 @@ export default class UsersController {
       console.error('Error creating user:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
+  }
+
+  static async getMe(req, res) {
+    const header = req.headers['x-token'];
+    const id = await redisClient.get(`auth_${header}`);
+    const user = await dbClient.getUserById(id);
+
+    if (user) {
+      return res.json({ id: user._id, email: user.email });
+    }
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 }
