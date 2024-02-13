@@ -113,8 +113,7 @@ class DBClient {
 
   async getFilesByParentId(userId, parentId, skip, limit) {
     const db = this.mongoClient.db();
-    const parentObjectId = parentId === '0' ? '0' : new mongo.ObjectId(parentId);
-
+    const parentObjectId = parentId === 0 ? 0 : parentId;
     const pipeline = [
       {
         $match: {
