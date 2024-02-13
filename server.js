@@ -1,6 +1,7 @@
 #!/usr/bin/node
 
 import mapRoutes from './routes/index';
+
 const express = require('express');
 
 /**
@@ -9,6 +10,9 @@ const express = require('express');
 
 const appss = express();
 const portss = process.env.PORT || 5000;
+
+// eslint-disable-next-line jest/require-hook
+appss.use(express.json());
 
 // eslint-disable-next-line jest/require-hook
 mapRoutes(appss);
