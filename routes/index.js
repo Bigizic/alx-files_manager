@@ -4,7 +4,7 @@
 // const UsersController = require('../controllers/UsersController');
 import AppController from '../controllers/AppController';
 import UsersController from '../controllers/UsersController';
-import AuthController from  '../controllers/AuthController';
+import AuthController from '../controllers/AuthController';
 
 /**
  * Contains all endpoints
