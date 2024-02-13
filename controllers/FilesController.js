@@ -22,7 +22,7 @@ export default class FilesController {
       type: req.body.type,
       parentId: req.body.parentId ? req.body.parentId : 0,
       isPublic: req.body.isPublic ? req.body.isPublic : false,
-      data: ['file', 'image'].includes(req.body.type) ? req.body.data : null,
+      data: req.body.type.includes(['file', 'image']) ? req.body.data : null,
     };
     if (!fileDetails.name) {
       return res.status(400).json({ error: 'Missing name' });
@@ -92,11 +92,10 @@ export default class FilesController {
 
     const fetchFile = await dbClient.getFileById(id);
 
-    if (!fetchFile || user._id !== fetchFile.userId) {
+    if (!fetchFile || user._id.toString() !== fetchFile.userId.toString()) {
       return res.status(404).json({ error: 'Not found' });
     }
     return res.json(fetchFile);
-    return res.status(200).json(fetchFile);
   }
 
   static async getIndex(req, res) {
@@ -114,6 +113,5 @@ export default class FilesController {
 
     const files = await dbClient.getFilesByParentId(user._id, parentId, skip, limit);
     return res.json(files);
-    return res.status(200).json(files);
   }
 }
