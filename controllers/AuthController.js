@@ -23,7 +23,7 @@ export default class AuthController {
     }
     const randstr = v4();
     await redisClient.set(`auth_${randstr}`, fetchUser._id.toString('utf8'), 86400);
-    return response.status(200).json({ token: randstr });
+    return response.json({ token: randstr });
   }
 
   static async getDisconnect(request, response) {
