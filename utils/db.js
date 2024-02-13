@@ -4,9 +4,9 @@ const { MongoClient } = require('mongodb');
 
 /**
  * DBClient module - creates a client to Mongodb
- */
+*/
 
-export default class DBClient {
+class DBClient {
   constructor() {
     const host = process.env.DB_HOST || 'localhost';
     const port = process.env.DB_PORT || 27017;
@@ -77,6 +77,20 @@ export default class DBClient {
     const files = db.collection('files');
 
     return files.countDocuments();
+  }
+
+  async userExists(email) {
+    const db = this.mongoClient.db();
+    const exists = await db.collection('users').findOne({ email });
+
+    return exists;
+  }
+
+  async createUser(newUser) {
+    const db = this.mongoClient.db();
+    const creator = await db.collection('users').insertOne(newUser);
+
+    return creator;
   }
 }
 
