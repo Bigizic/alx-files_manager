@@ -1,11 +1,11 @@
-import { sha1 } from 'sha1';
-import { ObjId } from 'mongodb';
-import dbClient from '../utils/db';
-import redisClient from '../utils/redis';
+#!/usr/bin/node
+
+const sha1 = require('sha1');
+const dbClient = require('../utils/db');
 
 /**
  * UsersController module
- */
+*/
 
 export default class UsersController {
   static async postNew(req, res) {
@@ -19,7 +19,7 @@ export default class UsersController {
       return res.status(400).json({ error: 'Missing password' });
     }
 
-    const userExists = await dbClient.usersCollection.findOne({ email });
+    const userExists = await dbClient.userExists(email);
     if (userExists) {
       return res.status(400).json({ error: 'Already exist' });
     }
@@ -32,7 +32,7 @@ export default class UsersController {
     };
 
     try {
-      const result = await dbClient.usersCollection.insertOne(newUser);
+      const result = await dbClient.createUser(newUser);
       const insertedUser = {
         id: result.insertedId,
         email: newUser.email,
