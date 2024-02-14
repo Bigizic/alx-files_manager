@@ -1,2 +1,7 @@
 /node_modules/*
 .eslintrc.json
+image.png
+new_image.png
+/noEslint/*
+/main/node_modules/*
+image_upload.py
