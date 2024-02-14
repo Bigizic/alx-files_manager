@@ -4,11 +4,6 @@
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
-/**
- * The file that contains the two endpoints
- * in the index.js file
- */
-
 export default class AppController {
   static getStatus(req, res) {
     const redisIsAlive = redisClient.isAlive();
