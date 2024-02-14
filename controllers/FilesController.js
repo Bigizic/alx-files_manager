@@ -3,7 +3,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import fs from 'fs';
+import Queue from 'bull/lib/queue';
 
+const mime = require('mime-types');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
 
@@ -68,6 +70,15 @@ export default class FilesController {
     fileDetails.localPath = localPath;
 
     const newFile = await dbClient.createFile(fileDetails);
+
+    // start generating thumbnails for a file of type image
+    if (newFile.type === 'image') {
+      const newFIleUserId = newFile.userId;
+      const newFileId = newFile._id;
+      const jobName = `Image thumbnail [${newFile.userId}-${newFile._id}]`;
+      const fileQueue = new Queue('thumbnail generation');
+      fileQueue.add({ newFIleUserId, newFileId, name: jobName });
+    }
 
     const createdFile = {
       id: newFile.insertedId,
@@ -159,5 +170,38 @@ export default class FilesController {
     const updatedFile = await dbClient.getFileById(id);
 
     return res.json(updatedFile);
+  }
+
+  static async getFile(req, res) {
+    const { id } = req.params;
+    const header = req.headers['x-token'];
+    const headerId = await redisClient.get(`auth_${header}`);
+    const user = await dbClient.getUserById(headerId);
+    // accepts querey parameter size
+    const size = req.query.size || null;
+
+    if (!user) {
+      return res.status(404).json({ error: 'Unauthorized' });
+    }
+    const file = await dbClient.getFileById(id);
+
+    if (!file || (!file.isPublic && file.userId.toString() !== user._id.toString())) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    if (file.type === 'folder') {
+      return res.status(400).json({ error: "A folder doesn't have content" });
+    }
+    let filePath = file.localPath;
+    console.log(filePath);
+    if (size) { filePath = `${file.localPath}_${size}`; }
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    const mimeType = mime.contentType(file.name);
+    // const fileContent = fs.readFileSync(filePath, 'utf8');
+
+    res.setHeader('Content-Type', mimeType || 'text/plain; charset=utf-8');
+    return res.status(200).sendFile(filePath);
   }
 }
