@@ -7,10 +7,6 @@ import UsersController from '../controllers/UsersController';
 import AuthController from '../controllers/AuthController';
 import FilesController from '../controllers/FilesController';
 
-/**
- * Contains all endpoints
-*/
-
 const mapRoutes = (app) => {
   app.get('/status', AppController.getStatus);
   app.get('/stats', AppController.getStats);
