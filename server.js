@@ -1,7 +1,7 @@
 #!/usr/bin/node
 
-import mapRoutes from './routes';
 import express from 'express';
+import mapRoutes from './routes';
 
 const appss = express();
 const portss = process.env.PORT || 5000;
