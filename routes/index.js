@@ -1,5 +1,6 @@
 #!/usr/bin/node
 
+// eslint-disable-next-line no-undef
 const AppController = require('../controllers/AppController');
 // const UsersController = require('../controllers/UsersController');
 // const AuthController = require('../controllers/AuthController');
@@ -20,4 +21,5 @@ const mapRoutes = (app) => {
   // app.get('/files/:id/data', FilesController.getFile);
 };
 
+// eslint-disable-next-line no-undef
 module.exports = mapRoutes;
