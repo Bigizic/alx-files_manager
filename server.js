@@ -1,6 +1,5 @@
 #!/usr/bin/node
-// import express from 'express';
-// import mapRoutes from './routes';
+
 import mapRoutes from './routes';
 
 const express = require('express');

@@ -1,4 +1,5 @@
 #!/usr/bin/node
+
 /* eslint-disable import/no-named-as-default */
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
@@ -15,6 +16,4 @@ export default class AppController {
     const nbFiles = await dbClient.nbFiles();
     res.status(200).json({ users: nbUsers, files: nbFiles });
   }
-
-  
 }
