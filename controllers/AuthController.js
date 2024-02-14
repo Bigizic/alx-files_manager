@@ -1,16 +1,24 @@
 #!/usr/bin/node
 
-/**
- * Authentication of the user.
-*/
-
+// eslint-disable-next-line no-undef
 const sha1 = require('sha1');
+// eslint-disable-next-line no-undef
 const { v4 } = require('uuid');
+// eslint-disable-next-line no-undef
 const dbClient = require('../utils/db');
+// eslint-disable-next-line no-undef
 const redisClient = require('../utils/redis');
+// eslint-disable-next-line no-undef
 const { getParams, splitAuthHeader } = require('../utils/auth');
 
-export default class AuthController {
+class AuthController {
+  /**
+   * getConnect - connects an existing user to access the db
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns api token for user interactions
+  */
+
   static async getConnect(request, response) {
     const token = splitAuthHeader(request.headers.authorization);
     const string = atob(token);
@@ -26,6 +34,13 @@ export default class AuthController {
     return response.json({ token: randstr });
   }
 
+  /**
+   * getDisconnect - disconnects a user
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns None
+  */
+
   static async getDisconnect(request, response) {
     const header = request.headers['x-token'];
     const id = await redisClient.get(`auth_${header}`);
@@ -37,3 +52,5 @@ export default class AuthController {
     return response.status(204).json();
   }
 }
+// eslint-disable-next-line no-undef
+module.exports = AuthController;

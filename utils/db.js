@@ -43,6 +43,10 @@ class DBClient {
     }
   } */
 
+  /**
+   * isAlive - Checks if the mongoClient is connected
+   * @returns boolean
+   */
   isAlive() {
     return this.mongoClient.topology.isConnected();
   }
@@ -59,11 +63,21 @@ class DBClient {
     }
   } */
 
+  /**
+   * nbUsers - gets the number of document in the user collection
+   * @returns number of documents in the user collection
+  */
+
   async nbUsers() {
     const db = this.mongoClient.db();
     const users = db.collection('users');
     return users.countDocuments();
   }
+
+  /**
+   * nbFiles - gets the number of document in the file collection
+   * @returns number of documents in the files collection
+  */
 
   async nbFiles() {
     const db = this.mongoClient.db();
@@ -72,12 +86,24 @@ class DBClient {
     return files.countDocuments();
   }
 
+  /**
+   * userExists - checks if a user exists in the user collection
+   * @param {string} email
+   * @returns boolean
+  */
+
   async userExists(email) {
     const db = this.mongoClient.db();
     const exists = await db.collection('users').findOne({ email });
 
     return exists;
   }
+
+  /**
+   * createUser - creates a user in the users collection
+   * @param {Dictionary} newUser
+   * @returns newly created user
+  */
 
   async createUser(newUser) {
     const db = this.mongoClient.db();
@@ -86,12 +112,24 @@ class DBClient {
     return creator;
   }
 
+  /**
+   * getUserById - fetch a docuement in the users collection by id
+   * @param {string} id
+   * @returns retrieved user
+  */
+
   async getUserById(id) {
     const db = this.mongoClient.db();
     const _id = new mongo.ObjectId(id);
     const exists = await db.collection('users').findOne({ _id });
     return exists;
   }
+
+  /**
+   * getFileById - fetch a document in the files collection by id
+   * @param {string} id
+   * @returns retrieved file
+  */
 
   async getFileById(id) {
     const db = this.mongoClient.db();
@@ -101,11 +139,26 @@ class DBClient {
     return exists;
   }
 
+  /**
+   * createFile - create a document in the files collection
+   * @param {string} fileName
+   * @returns created File
+  */
+
   async createFile(fileName) {
     const db = this.mongoClient.db();
     const fileTouch = await db.collection('files').insertOne(fileName);
     return fileTouch;
   }
+
+  /**
+   * getFilesByParentId - get a document in the files collection by Parent Id attr
+   * @param {string} userId
+   * @param {string} parentId
+   * @param {integer} skip
+   * @param {integer} limit
+   * @returns retrieved file
+  */
 
   async getFilesByParentId(userId, parentId, skip, limit) {
     const db = this.mongoClient.db();
@@ -128,6 +181,13 @@ class DBClient {
     const files = await db.collection('files').aggregate(pipeline).toArray();
     return files;
   }
+
+  /**
+   * updateFileById - Updates a mongo document by id
+   * @param {string} id
+   * @param {Dictionary} updateFields
+   * @returns newly updated collection
+  */
 
   async updateFileById(id, updateFields) {
     const db = this.mongoClient.db();

@@ -1,15 +1,28 @@
 #!/usr/bin/node
 
-import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
-import fs from 'fs';
-import Queue from 'bull/lib/queue';
-
+// eslint-disable-next-line no-undef
+const { v4: uuidv4 } = require('uuid');
+// eslint-disable-next-line no-undef
+const fs = require('fs');
+// eslint-disable-next-line no-undef
 const mime = require('mime-types');
+// eslint-disable-next-line no-undef
+const path = require('path');
+// eslint-disable-next-line no-undef
+const Queue = require('bull/lib/queue');
+// eslint-disable-next-line no-undef
 const dbClient = require('../utils/db');
+// eslint-disable-next-line no-undef
 const redisClient = require('../utils/redis');
 
-export default class FilesController {
+class FilesController {
+  /**
+   * postUpload - allows an authorized user to upload a file
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns details of uploaded file
+  */
+
   static async postUpload(req, res) {
     const header = req.headers['x-token'];
     const id = await redisClient.get(`auth_${header}`);
@@ -91,6 +104,13 @@ export default class FilesController {
     return res.status(201).json(createdFile);
   }
 
+  /**
+   * getShow - fetch a file in the files collection known to a user
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns a file if known to authorized user
+  */
+
   static async getShow(req, res) {
     const { id } = req.params;
     const header = req.headers['x-token'];
@@ -109,6 +129,12 @@ export default class FilesController {
     return res.json(fetchFile);
   }
 
+  /** getIndex - lookup files and folders known to a user
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns all files and folders known to a user
+  */
+
   static async getIndex(req, res) {
     const header = req.headers['x-token'];
     const headerId = await redisClient.get(`auth_${header}`);
@@ -125,6 +151,13 @@ export default class FilesController {
     const files = await dbClient.getFilesByParentId(user._id, parentId, skip, limit);
     return res.json(files);
   }
+
+  /**
+   * putPublish - publish a file. Change it's isPublic attr to true
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns newly updated file
+  */
 
   static async putPublish(req, res) {
     const { id } = req.params;
@@ -149,6 +182,13 @@ export default class FilesController {
     return res.json(updatedFile);
   }
 
+  /**
+   * putUnpublish - unpublish a file. Change it's isPublic attr to false
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns newly updated file
+  */
+
   static async putUnpublish(req, res) {
     const { id } = req.params;
     const header = req.headers['x-token'];
@@ -171,6 +211,13 @@ export default class FilesController {
 
     return res.json(updatedFile);
   }
+
+  /**
+   * getFile - sends the mime content of an image to client
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns FilePath of  image
+  */
 
   static async getFile(req, res) {
     const { id } = req.params;
@@ -205,3 +252,5 @@ export default class FilesController {
     return res.status(200).sendFile(filePath);
   }
 }
+// eslint-disable-next-line no-undef
+module.exports = FilesController;
