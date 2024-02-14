@@ -1,6 +1,8 @@
 #!/usr/bin/node
 
+// eslint-disable-next-line no-undef
 const redisClient = require('../utils/redis');
+// eslint-disable-next-line no-undef
 const dbClient = require('../utils/db');
 
 class AppController {
@@ -17,4 +19,5 @@ class AppController {
   }
 }
 
+// eslint-disable-next-line no-undef
 module.exports = AppController;
