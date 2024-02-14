@@ -3,10 +3,6 @@
 const { createClient } = require('redis');
 const { promisify } = require('util');
 
-/**
- * RedisClient Module - creates a client to Redis
- */
-
 class RedisClient {
   constructor() {
     this.client = createClient(6379, '0.0.0.0');
