@@ -7,12 +7,13 @@ const dbClient = require('../utils/db');
 // eslint-disable-next-line no-undef
 const redisClient = require('../utils/redis');
 
+// UsersController - Controller Module for the User utilities
 class UsersController {
   /**
-   * Controller Module for the User utilities
+   * postNew - Creates a new User in MongoDb 'users' Collection
    * @param {Request object} req
    * @param {HTTP Response} res
-   * @returns HTTP Response.status(Integer).json(Response Body)
+   * @returns Created User if they don't exist else Error
    */
   static async postNew(req, res) {
     const { email, password } = req.body;
@@ -49,6 +50,12 @@ class UsersController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+  /**
+   * getMe - Retrieves a user based on authentication token('x-token')
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns User if found else error: 'Unauthorized'
+   */
 
   static async getMe(req, res) {
     const header = req.headers['x-token'];

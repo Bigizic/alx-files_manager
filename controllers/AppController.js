@@ -6,6 +6,12 @@ const redisClient = require('../utils/redis');
 const dbClient = require('../utils/db');
 
 class AppController {
+  /**
+   * AppController - 
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns HTTP Response.status(Integer).json(Response Body)
+   */
   static getStatus(req, res) {
     const redisIsAlive = redisClient.isAlive();
     const dbIsAlive = dbClient.isAlive();
