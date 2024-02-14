@@ -9,6 +9,8 @@ const mime = require('mime-types');
 // eslint-disable-next-line no-undef
 const path = require('path');
 // eslint-disable-next-line no-undef
+const process = require('process');
+// eslint-disable-next-line no-undef
 const Queue = require('bull/lib/queue');
 // eslint-disable-next-line no-undef
 const dbClient = require('../utils/db');
@@ -74,6 +76,7 @@ class FilesController {
       return res.status(201).json(createdFile);
     }
     const localPath = path.join(folderPath, `${uuidv4()}.txt`);
+    // eslint-disable-next-line no-undef
     const fileData = Buffer.from(fileDetails.data, 'base64');
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });
