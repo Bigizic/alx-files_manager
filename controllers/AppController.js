@@ -15,4 +15,6 @@ export default class AppController {
     const nbFiles = await dbClient.nbFiles();
     res.status(200).json({ users: nbUsers, files: nbFiles });
   }
+
+  
 }
