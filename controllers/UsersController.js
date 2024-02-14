@@ -4,8 +4,7 @@
 const sha1 = require('sha1');
 // eslint-disable-next-line no-undef
 const dbClient = require('../utils/db');
-// eslint-disable-next-line no-undef
-const redisClient = require('../utils/redis');
+// const redisClient = require('../utils/redis');
 
 // UsersController - Controller Module for the User utilities
 class UsersController {
@@ -49,23 +48,6 @@ class UsersController {
       console.error('Error creating user:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
-  }
-  /**
-   * getMe - Retrieves a user based on authentication token('x-token')
-   * @param {Request object} req
-   * @param {HTTP Response} res
-   * @returns User if found else error: 'Unauthorized'
-   */
-
-  static async getMe(req, res) {
-    const header = req.headers['x-token'];
-    const id = await redisClient.get(`auth_${header}`);
-    const user = await dbClient.getUserById(id);
-
-    if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-    return res.status(200).json({ id: user._id.toString(), email: user.email });
   }
 }
 // eslint-disable-next-line no-undef

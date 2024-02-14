@@ -51,6 +51,24 @@ class AuthController {
     await redisClient.del(`auth_${header}`);
     return response.status(204).json();
   }
+
+  /**
+   * getMe - Retrieves a user based on authentication token('x-token')
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns User if found else error: 'Unauthorized'
+  */
+
+  static async getMe(req, res) {
+    const header = req.headers['x-token'];
+    const id = await redisClient.get(`auth_${header}`);
+    const user = await dbClient.getUserById(id);
+
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    return res.status(200).json({ id: user._id.toString(), email: user.email });
+  }
 }
 // eslint-disable-next-line no-undef
 module.exports = AuthController;
