@@ -1,14 +1,17 @@
 #!/usr/bin/node
 
+// eslint-disable-next-line no-undef
 const sha1 = require('sha1');
+// eslint-disable-next-line no-undef
 const dbClient = require('../utils/db');
+// eslint-disable-next-line no-undef
 const redisClient = require('../utils/redis');
 
 /**
  * UsersController module
 */
 
-export default class UsersController {
+class UsersController {
   static async postNew(req, res) {
     const { email, password } = req.body;
 
@@ -56,3 +59,4 @@ export default class UsersController {
     return res.status(200).json({ id: user._id.toString(), email: user.email });
   }
 }
+module.exports = UsersController;
