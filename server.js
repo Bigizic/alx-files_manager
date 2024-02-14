@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-import mapRoutes from './routes/index';
+import mapRoutes from './routes';
 import express from 'express';
 
 /**
