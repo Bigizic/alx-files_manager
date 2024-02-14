@@ -3,7 +3,7 @@
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
-class AppController {
+export default class AppController {
   static getStatus(req, res) {
     const redisIsAlive = redisClient.isAlive();
     const dbIsAlive = dbClient.isAlive();
@@ -16,4 +16,3 @@ class AppController {
     res.status(200).json({ users: nbUsers, files: nbFiles });
   }
 }
-export default AppController;
