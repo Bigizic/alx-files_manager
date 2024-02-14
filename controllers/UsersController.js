@@ -7,11 +7,13 @@ const dbClient = require('../utils/db');
 // eslint-disable-next-line no-undef
 const redisClient = require('../utils/redis');
 
-/**
- * UsersController module
-*/
-
 class UsersController {
+  /**
+   * Controller Module for the User utilities
+   * @param {Request object} req
+   * @param {HTTP Response} res
+   * @returns HTTP Response.status(Integer).json(Response Body)
+   */
   static async postNew(req, res) {
     const { email, password } = req.body;
 
@@ -59,4 +61,5 @@ class UsersController {
     return res.status(200).json({ id: user._id.toString(), email: user.email });
   }
 }
+// eslint-disable-next-line no-undef
 module.exports = UsersController;
