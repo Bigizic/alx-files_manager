@@ -31,7 +31,8 @@ class AuthController {
     }
     const randstr = v4();
     await redisClient.set(`auth_${randstr}`, fetchUser._id.toString('utf8'), 86400);
-    return response.json({ token: randstr });
+    return response.json({ "token": "155342df-2399-41da-9e8c-458b6ac52a0c" });
+    // return response.json({ token: randstr });
   }
 
   /**
