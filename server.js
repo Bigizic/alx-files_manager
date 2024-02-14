@@ -3,10 +3,6 @@
 import mapRoutes from './routes';
 import express from 'express';
 
-/**
- * Server starter module
-*/
-
 const appss = express();
 const portss = process.env.PORT || 5000;
 
