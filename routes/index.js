@@ -2,14 +2,15 @@
 
 // eslint-disable-next-line no-undef
 const AppController = require('../controllers/AppController');
-// const UsersController = require('../controllers/UsersController');
+// eslint-disable-next-line no-undef
+const UsersController = require('../controllers/UsersController');
 // const AuthController = require('../controllers/AuthController');
 // const FilesController = require('../controllers/FilesController');
 
 const mapRoutes = (app) => {
   app.get('/status', AppController.getStatus);
   app.get('/stats', AppController.getStats);
-  // app.post('/users', UsersController.postNew);
+  app.post('/users', UsersController.postNew);
   // app.get('/connect', AuthController.getConnect);
   // app.get('/disconnect', AuthController.getDisconnect);
   // app.get('/users/me', UsersController.getMe);
