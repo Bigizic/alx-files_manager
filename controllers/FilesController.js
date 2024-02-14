@@ -24,7 +24,7 @@ export default class FilesController {
       type: req.body.type,
       parentId: req.body.parentId ? req.body.parentId : 0,
       isPublic: req.body.isPublic ? req.body.isPublic : false,
-      data: ['file', 'image'].includes(req.body.type) ? req.body.data : null,
+      data: req.body.type.includes(['file', 'image']) ? req.body.data : null,
     };
     if (!fileDetails.name) {
       return res.status(400).json({ error: 'Missing name' });
@@ -160,7 +160,6 @@ export default class FilesController {
     }
 
     const file = await dbClient.getFileById(id);
-    console.log(file);
 
     if (!file || file.userId.toString() !== user._id.toString()) {
       return res.status(404).json({ error: 'Not found' });
