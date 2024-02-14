@@ -4,10 +4,6 @@ const { MongoClient } = require('mongodb');
 
 const mongo = require('mongodb');
 
-/**
- * DBClient module - creates a client to Mongodb
-*/
-
 class DBClient {
   constructor() {
     const host = process.env.DB_HOST || 'localhost';
