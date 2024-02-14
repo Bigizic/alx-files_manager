@@ -135,12 +135,10 @@ class DBClient {
 
   async updateFileById(id, updateFields) {
     const db = this.mongoClient.db();
-    const filter = { _id: new mongo.ObjectId(id) }
+    const filter = { _id: new mongo.ObjectId(id) };
     const updateResult = await db.collection('files').updateOne(filter, { $set: updateFields });
 
-    console.log(updateResult)
-
-    return updateResult
+    return updateResult;
   }
 }
 
