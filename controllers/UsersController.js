@@ -57,15 +57,16 @@ class UsersController {
    * @returns User if found else error: 'Unauthorized'
    */
 
-  static async getMe(req, res) {
-    const header = req.headers['x-token'];
-    const id = await redisClient.get(`auth_${header}`);
-    const user = await dbClient.getUserById(id);
-
-    if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-    return res.status(200).json({ id: user._id.toString(), email: user.email });
+  static async getMe(request, response) {
+    const token = request.header('X-Token');
+    const key = `auth_${token}`;
+    const userId = await redisClient.get(key);
+    if (userId) {
+      const user = await dbClient.getUserById(userId);
+      if (user) {
+        response.status(200).json({ id: userId, email: user.email });
+      } else { response.status(401).json({ error: 'Unauthorized' }); }
+    } else { response.status(401).json({ error: 'Unauthorized' }); }
   }
 }
 // eslint-disable-next-line no-undef
