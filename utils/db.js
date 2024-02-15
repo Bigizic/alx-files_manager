@@ -196,6 +196,17 @@ class DBClient {
 
     return updateResult;
   }
+
+  /**
+   * getUserByCredentials - retrieve a user by username and password
+   * @param {Dictionary} credentials 
+   * @returns boolean
+   */
+  async getUserByCredentials(credentials) {
+    const db = this.mongoClient.db();
+    const exists = await db.collection('users').findOne(credentials);
+    return exists;
+  }
 }
 
 const dbClient = new DBClient();
