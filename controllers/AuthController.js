@@ -28,7 +28,7 @@ class AuthController {
     // eslint-disable-next-line no-undef
     const decodedAuthData = Buffer.from(authData, 'base64').toString('utf-8');
     const [email, password] = decodedAuthData.split(':');
-    if (!email && !password) { return response.status(401).json({ error: 'Unauthorized' }); }
+    if (!email || !password) { return response.status(401).json({ error: 'Unauthorized' }); }
     const hashedPassword = sha1(password);
     const users = await dbClient.getUserByCredentials({ email: email, password: hashedPassword });
     if (users) {
