@@ -49,12 +49,9 @@ class AuthController {
     const token = request.header('X-Token');
     const key = `auth_${token}`;
     const id = await redisClient.get(key);
-    if (id) {
-      await redisClient.del(key);
-      return response.status(204).json({});
-    } else {
-      return response.status(401).json({ error: 'Unauthorized' });
-    }
+    if (!id) { return response.status(401).json({ error: 'Unauthorized' }); };
+    await redisClient.del(key);
+    return response.status(204).json({});
   }
 }
 // eslint-disable-next-line no-undef
