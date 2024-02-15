@@ -212,5 +212,6 @@ class DBClient {
     return exists;
   }
 }
+// eslint-disable-next-line no-undef
 const dbClient = new DBClient();
 module.exports = dbClient;
