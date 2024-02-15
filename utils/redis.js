@@ -1,6 +1,8 @@
 #!/usr/bin/node
 
+// eslint-disable-next-line no-undef
 const { createClient } = require('redis');
+// eslint-disable-next-line no-undef
 const { promisify } = require('util');
 
 class RedisClient {
@@ -54,4 +56,5 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
+// eslint-disable-next-line no-undef
 module.exports = redisClient;
