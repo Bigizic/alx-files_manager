@@ -1,15 +1,13 @@
 #!/usr/bin/node
 
 const { MongoClient } = require('mongodb');
+
 const mongo = require('mongodb');
 
 class DBClient {
   constructor() {
-    // eslint-disable-next-line no-undef
     const host = process.env.DB_HOST || 'localhost';
-    // eslint-disable-next-line no-undef
     const port = process.env.DB_PORT || 27017;
-    // eslint-disable-next-line no-undef
     const db = process.env.DB_DATABASE || 'files_manager';
     const uri = `mongodb://${host}:${port}/${db}`;
     this.mongoClient = new MongoClient(uri, { useUnifiedTopology: true });
