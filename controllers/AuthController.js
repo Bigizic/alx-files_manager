@@ -30,15 +30,12 @@ class AuthController {
     const [email, password] = decodedAuthData.split(':');
     if (!email || !password) { return response.status(401).json({ error: 'Unauthorized' }); }
     const hashedPassword = sha1(password);
-    const users = await dbClient.getUserByCredentials({ email: email, password: hashedPassword });
-    if (users) {
-      const token = v4();
-      const key = `auth_${token}`;
-      await redisClient.set(key, users._id.toString(), 60 * 60 * 24);
-      return response.status(200).json({ token });
-    } else {
-      return response.status(401).json({ error: 'Unauthorized' });
-    }
+    const users = await dbClient.getUserByCredentials({ email, password: hashedPassword });
+    if (!users) { return response.status(401).json({ error: 'Unauthorized' }); };
+    const token = v4();
+    const key = `auth_${token}`;
+    await redisClient.set(key, users._id.toString(), 60 * 60 * 24);
+    return response.status(200).json({ token });
   }
 
   /**
