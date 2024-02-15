@@ -1,8 +1,12 @@
 #!/usr/bin/node
 
+// eslint-disable-next-line no-undef
 const { MongoClient } = require('mongodb');
 
+// eslint-disable-next-line no-undef
 const mongo = require('mongodb');
+// eslint-disable-next-line no-undef
+const process = require('process');
 
 class DBClient {
   constructor() {
@@ -208,6 +212,5 @@ class DBClient {
     return exists;
   }
 }
-
 const dbClient = new DBClient();
 module.exports = dbClient;
