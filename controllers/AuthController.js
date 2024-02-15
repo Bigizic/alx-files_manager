@@ -21,10 +21,11 @@ class AuthController {
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return response.status(401).json({ error: 'Unauthorized' });
     }
 
     const authData = authHeader.split(' ')[1];
+    // eslint-disable-next-line no-undef
     const decodedAuthData = Buffer.from(authData, 'base64').toString('utf-8');
     const [email, password] = decodedAuthData.split(':');
     if (!email && !password) { return response.status(401).json({ error: 'Unauthorized' }); }
