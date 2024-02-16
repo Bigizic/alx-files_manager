@@ -31,7 +31,7 @@ class AuthController {
     if (!email || !password) { return response.status(401).json({ error: 'Unauthorized' }); }
     const hashedPassword = sha1(password);
     const users = await dbClient.getUserByCredentials({ email, password: hashedPassword });
-    if (!users) { return response.status(401).json({ error: 'Unauthorized' }); };
+    if (!users) { return response.status(401).json({ error: 'Unauthorized' }); }
     const token = v4();
     const key = `auth_${token}`;
     await redisClient.set(key, users._id.toString(), 60 * 60 * 24);
@@ -49,7 +49,7 @@ class AuthController {
     const token = request.header('X-Token');
     const key = `auth_${token}`;
     const id = await redisClient.get(key);
-    if (!id) { return response.status(401).json({ error: 'Unauthorized' }); };
+    if (!id) { return response.status(401).json({ error: 'Unauthorized' }); }
     await redisClient.del(key);
     return response.status(204).json({});
   }
