@@ -7,6 +7,8 @@ const fs = require('fs');
 // eslint-disable-next-line no-undef
 const mime = require('mime-types');
 // eslint-disable-next-line no-undef
+const os = require('os');
+// eslint-disable-next-line no-undef
 const path = require('path');
 // eslint-disable-next-line no-undef
 const process = require('process');
@@ -75,6 +77,24 @@ class FilesController {
       };
       return res.status(201).json(createdFile);
     }
+    if ((fileDetails.type == 'file' || fileDetails.type == 'image') && fileDetails.parentId == 0) {
+      const newFile = await dbClient.createFile(fileDetails);
+      const homeDir = os.homedir();
+      const fileData = Buffer.from(fileDetails.data, 'base64');
+      const singleFilePath = path.join(homeDir, fileDetails.name);
+      fs.writeFileSync(singleFilePath, fileData);
+      const createdFile = {
+        id: newFile.insertedId,
+        userId: fileDetails.userId,
+        name: fileDetails.name,
+        type: fileDetails.type,
+        isPublic: fileDetails.isPublic,
+        parentId: fileDetails.parentId,
+      };
+      return res.status(201).json(createdFile);
+    }
+
+    // creates file in process.env.FOLDER_PATH or /tmp/files_manager
     const localPath = path.join(folderPath, `${uuidv4()}.txt`);
     // eslint-disable-next-line no-undef
     const fileData = Buffer.from(fileDetails.data, 'base64');
