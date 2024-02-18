@@ -39,7 +39,6 @@ class FilesController {
       type: req.body.type,
       parentId: req.body.parentId ? req.body.parentId : 0,
       isPublic: req.body.isPublic ? req.body.isPublic : false,
-      data: req.body.type.includes(['file', 'image']) ? req.body.data : null,
     };
     if (!fileDetails.name) {
       return res.status(400).json({ error: 'Missing name' });
@@ -52,6 +51,7 @@ class FilesController {
     if (!fileDetails.data && fileDetails.type !== 'folder') {
       return res.status(400).json({ error: 'Missing data' });
     }
+    fileDetails.data = req.body.type.includes(['file', 'image']) ? req.body.data : null;
 
     if (fileDetails.parentId !== 0) {
       const idResult = await dbClient.getFileById(fileDetails.parentId);
