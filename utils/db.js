@@ -203,7 +203,7 @@ class DBClient {
 
   /**
    * getUserByCredentials - retrieve a user by username and password
-   * @param {Dictionary} credentials 
+   * @param {Dictionary} credentials
    * @returns boolean
    */
   async getUserByCredentials(credentials) {

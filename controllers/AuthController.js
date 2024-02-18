@@ -28,17 +28,14 @@ class AuthController {
     // eslint-disable-next-line no-undef
     const decodedAuthData = Buffer.from(authData, 'base64').toString('utf-8');
     const [email, password] = decodedAuthData.split(':');
-    if (!email && !password) { return response.status(401).json({ error: 'Unauthorized' }); }
+    if (!email || !password) { return response.status(401).json({ error: 'Unauthorized' }); }
     const hashedPassword = sha1(password);
-    const users = await dbClient.getUserByCredentials({ email: email, password: hashedPassword });
-    if (users) {
-      const token = v4();
-      const key = `auth_${token}`;
-      await redisClient.set(key, users._id.toString(), 60 * 60 * 24);
-      response.status(200).json({ token });
-    } else {
-      response.status(401).json({ error: 'Unauthorized' });
-    }
+    const users = await dbClient.getUserByCredentials({ email, password: hashedPassword });
+    if (!users) { return response.status(401).json({ error: 'Unauthorized' }); }
+    const token = v4();
+    const key = `auth_${token}`;
+    await redisClient.set(key, users._id.toString(), 60 * 60 * 24);
+    return response.status(200).json({ token });
   }
 
   /**
@@ -52,12 +49,9 @@ class AuthController {
     const token = request.header('X-Token');
     const key = `auth_${token}`;
     const id = await redisClient.get(key);
-    if (id) {
-      await redisClient.del(key);
-      response.status(204).json({});
-    } else {
-      response.status(401).json({ error: 'Unauthorized' });
-    }
+    if (!id) { return response.status(401).json({ error: 'Unauthorized' }); }
+    await redisClient.del(key);
+    return response.status(204).json({});
   }
 }
 // eslint-disable-next-line no-undef
