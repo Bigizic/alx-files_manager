@@ -80,6 +80,7 @@ class FilesController {
     if ((fileDetails.type == 'file' || fileDetails.type == 'image') && fileDetails.parentId == 0) {
       const newFile = await dbClient.createFile(fileDetails);
       const homeDir = os.homedir();
+      // eslint-disable-next-line no-undef
       const fileData = Buffer.from(fileDetails.data, 'base64');
       const singleFilePath = path.join(homeDir, fileDetails.name);
       fs.writeFileSync(singleFilePath, fileData);
