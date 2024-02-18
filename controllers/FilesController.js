@@ -77,7 +77,7 @@ class FilesController {
       };
       return res.status(201).json(createdFile);
     }
-    if ((fileDetails.type == 'file' || fileDetails.type == 'image') && fileDetails.parentId == 0) {
+    if ((fileDetails.type == 'file' || fileDetails.type == 'image') && fileDetails.parentId === 0) {
       const newFile = await dbClient.createFile(fileDetails);
       const homeDir = os.homedir();
       // eslint-disable-next-line no-undef
