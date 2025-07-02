@@ -1,13 +1,22 @@
 #!/usr/bin/node
 
 // eslint-disable-next-line no-undef
-const { createClient } = require('redis');
+const redis = require("redis");
 // eslint-disable-next-line no-undef
 const { promisify } = require('util');
 
 class RedisClient {
   constructor() {
-    this.client = createClient(6379, '0.0.0.0');
+    this.client = redis.createClient({
+                  socket: {
+                    port: 6379,
+                    host: '127.0.0.1'
+                  }
+    });
+
+    (async () => {
+      await this.client.connect();
+    })();
 
     this.client.on('error', () => { console.log('error connection to redis'); });
     this.connectStatus = false;
